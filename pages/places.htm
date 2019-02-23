@@ -1,0 +1,67 @@
+title = "places"
+url = "/places"
+layout = "Default"
+is_hidden = 0
+==
+<?php
+use Shohabbos\Catalog\Models\Partner;
+
+public function onStart() {
+    $this['partners'] = Partner::get();
+}
+?>
+==
+<!-- SLIDER -->
+<div class="intro-section ptb pbb" style="background-image: url({{ 'assets/images/main-slider-image-1.jpg'|theme }});">
+	<div class="container">
+		<div class="text-center">
+			<div class="center-block" style="max-width: 410px;">
+				<h1 class="fl">Где купить</h1>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- /SLIDER -->
+
+<div class="page-content-section ptb pbb">
+	
+	<div class="container">
+
+		<div class="white-block">
+			
+			<div class="table-div">
+				<div class="table-div-thead">
+					<div class="table-div-row">
+						<div class="table-div-thead-item table-div-cell">Название</div>
+						<div class="table-div-thead-item table-div-cell">Адрес</div>
+						<div class="table-div-thead-item table-div-cell">Телефон</div>
+					</div>
+				</div>
+				<div class="table-div-tbody">	
+				    
+				    {% for partner in partners %}
+					<div class="table-div-row">
+						<div class="table-div-cell"><strong> {{partner.name}} </strong></div>
+						<div class="table-div-cell">
+							<div class="table-address">
+								<small>{{partner.address}}</small>
+							</div>
+						</div>
+						<div class="table-div-cell">{{partner.phone}}</div>
+					</div>
+					{% endfor %}
+					
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="mtm">
+			<img src="{{ 'assets/images/places-map.jpg'|theme }}" class="img-responsive" alt="">
+		</div>
+		
+	</div>
+
+</div>

@@ -1,0 +1,8 @@
+==
+<a href="{{ 'product-card'|page({slug: product.slug}) }}" class="products-list-item">
+	<span class="products-list-item-image">
+		<img src="{{ product.images[0].path|resize(170, 170, {mode: 'crop'}) }}" alt="">
+	</span>
+	<span class="products-list-item-title mbs"> {{product.title}} </span>
+	<span class="products-list-item-price">от {{product.price}} сум</span>
+</a>

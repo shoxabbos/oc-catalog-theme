@@ -1,0 +1,48 @@
+title = "vendors"
+url = "/vendors"
+layout = "Default"
+is_hidden = 0
+==
+<?php
+use Shohabbos\Catalog\Models\Brand;
+
+function onStart() {
+    $this['brands'] = Brand::get();
+}
+?>
+==
+<!-- SLIDER -->
+<div class="intro-section ptb pbb" style="background-image: url({{ 'assets/images/main-slider-image-1.jpg'|theme }});">
+	<div class="container">
+		<div class="text-center">
+			<div class="center-block" style="max-width: 410px;">
+				<h1 class="fl">Производители</h1>
+				<div>
+					Партнерство с мировыми лидерами позволяет
+					нам предлагать решения наших поставщиков
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- /SLIDER -->
+
+<!-- VENDORS -->
+
+<div class="vendors-section ptb pbb">
+	<div class="container">
+		
+		<div class="vendors-list clearfix">
+			{% for brand in brands %}
+				<a href="{{'vendor-detail'|page({slug: brand.slug}) }}" class="vendors-list-item">
+					<img src="{{ brand.logo.path }}" alt="">
+				</a>
+			{% endfor %}
+			
+		</div>
+
+	</div>
+</div>
+
+<!-- /VENDORS -->

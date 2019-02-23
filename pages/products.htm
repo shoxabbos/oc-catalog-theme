@@ -1,0 +1,163 @@
+title = "products"
+url = "/products/:category?all/:page?"
+layout = "Default"
+is_hidden = 0
+==
+<?php
+use Shohabbos\Catalog\Models\Product;
+use Shohabbos\Catalog\Models\Category;
+use Shohabbos\Catalog\Models\Brand;
+
+function onStart() {
+    $brand  = $this['checkedBrand'] = get('brand');
+    $query = get('query');
+    $page = $this->param('page', 1);
+    $category = $this->param('category', null);
+    
+    if ($category) {
+        $category = Category::where('slug', $category)->first();
+    } else {
+        $category = null;
+    }
+    
+
+    
+    $products = Product::orderByDesc('id');
+    
+    if ($query) {
+        $products->where('title', 'LIKE', "%".$query."%")
+            ->orWhere('slug', 'LIKE', "%".$query."%")
+            ->orWhere('description', 'LIKE', "%".$query."%");
+    }
+    
+    if ($category) {
+        $products->where('category_id', $category->id);
+    }
+    
+    if ($brand) {
+        $products->where('brand_id', $brand);
+    }
+    
+    
+    $products = $products->paginate(15, $page);
+    $categories = Category::orderByDesc('sort')->get();
+    $brands = Brand::get();
+    
+    $this['products'] = $products;
+    $this['categories'] = $categories;
+    $this['brands'] = $brands;
+}
+?>
+==
+<!-- SLIDER -->
+
+<div class="intro-section ptb pbb" style="background-image: url({{ 'assets/images/main-slider-image-1.jpg'|theme }});">
+	<div class="container">
+		<div class="text-center">
+			<div class="center-block" style="max-width: 410px;">
+				<h1 class="fl">Продукция</h1>
+				<div>
+					Партнерство с мировыми лидерами позволяет
+					нам предлагать решения наших поставщиков
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- /SLIDER -->
+
+<div class="products-section ptb pbb">
+	
+	<div class="container">
+		
+		<div class="row">
+			
+			<div class="col-sm-4 col-md-3 sidebar">
+
+				<div class="white-block">
+
+					<div class="white-block-title">Категории</div>
+					
+					<nav class="vertical-menu">
+						<ul>
+						    {% for category in categories %}
+							    <li><a href="{{ 'products'|page({category: category.slug}) }}"> {{category.title}} </a></li>
+							{% endfor %}
+						</ul>
+					</nav>
+
+				</div>
+
+				<div class="white-block">
+
+					<div class="white-block-title">Производитель</div>
+					
+					<form id="brandsForm" class="vertical-menu">
+						<ul>
+						    
+						    {% for brand in brands %}
+    							<li>
+    								<label class="styled-checkbox">
+    									<input type="radio" name="brand" value="{{brand.id}}" 
+    									    {{ checkedBrand == brand.id ? 'checked' }}
+    									    onchange="$('#brandsForm').submit();">
+    									<span class="styled-checkbox-button"></span>
+    									<span class="styles-checkbox-text"> {{brand.title}} </span>
+    								</label>
+    							</li>
+							{% endfor %}
+							
+						</ul>
+					</form>
+
+				</div>
+				
+			</div>
+
+			<div class="col-sm-8 col-md-9">
+				
+				<div class="products-list clearfix">
+					<div class="row">
+                        
+                        {% for product in products %}
+    						<div class="col-sm-6 col-md-4">
+    							{% partial 'product-item' product=product %}
+    						</div>
+						{% else %}
+					    <div class="alert alert-info text-center">
+					        Ничего не найдено
+					    </div>
+					    {% endfor %}
+
+					</div>
+				</div>
+
+                {% if products.lastPage > 1 %}
+                    <div class="text-center">
+                        <ul class="pagination">
+                            {% if products.currentPage > 1 %}
+                                <li><a href="{{ this.page.baseFileName|page({ 'page': (products.currentPage-1) }) }}">&larr; Предыдущая</a></li>
+                            {% endif %}
+                    
+                            {% for page in 1..products.lastPage %}
+                                <li class="{{ products.currentPage == page ? 'active' : null }}">
+                                    <a href="{{ this.page.baseFileName|page({ 'page': page }) }}">{{ page }}</a>
+                                </li>
+                            {% endfor %}
+                    
+                            {% if products.lastPage > products.currentPage %}
+                                <li><a href="{{ this.page.baseFileName|page({ 'page': (products.currentPage+1) }) }}">Следующая &rarr;</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

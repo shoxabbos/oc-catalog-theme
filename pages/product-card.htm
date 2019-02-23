@@ -1,0 +1,92 @@
+title = "product-card"
+url = "/product/:slug"
+layout = "Default"
+is_hidden = 0
+==
+<?php
+use Shohabbos\Catalog\Models\Product;
+
+function onStart() {
+    $product = Product::where('slug', $this->param('slug'))->first();
+    
+    $this['product'] = $product;
+}
+?>
+==
+<!-- SLIDER -->
+
+
+<!-- /SLIDER -->
+
+<div class="product-card ptb pbb">
+	
+	<div class="container">
+		
+		<div class="product-card-block">
+			<div class="product-card-title">
+				<h2> {{product.title}} </h2>
+			</div>
+			<div class="clearfix">
+				<div class="product-card-photo">
+					
+						<div class="col-md-9 col-lg-10 col-md-push-3 col-lg-push-2">
+							<div class="row">
+								
+								<div class="product-card-slider">
+								    {% for image in product.images %}
+    									<div>
+    										<img src="{{ image.path }}" class="img-responsive center-block" alt="">
+    									</div>
+									{% endfor %}
+								</div>
+
+							</div>
+						</div>
+						<div class="col-md-3 col-lg-2 col-md-pull-9 col-lg-pull-10">
+							<div class="container-fluid">
+								<div class="product-card-slider-nav">
+									{% for image in product.images %}
+    									<div>
+    										<img src="{{ image.path }}" class="img-responsive" alt="">
+    									</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+						
+					
+				</div>
+				
+				<div class="product-card-desc">
+
+					<div class="product-card-desc-title">Характеристики</div>
+
+					<ul class="product-card-desc-params">
+					    {% for property in product.properties %}
+    						<li>
+    							<div class="pull-left"> {{property.label}} </div>
+    							<div class="pull-right"> {{property.value}} </div>
+    						</li>
+						{% endfor %}
+					</ul>
+
+				</div>
+			</div>
+
+			<div class="product-card-info">
+				<div class="product-card-desc-title">Описание</div>
+				
+				{{product.description|raw}}
+			</div>
+			
+		</div>
+
+		<div class="text-center mtm pts">
+			<div class="btn-3d">
+				<a href="#" class="btn btn-red btn-lg" data-text="Узнать где купить">Узнать где купить</a>
+			</div>
+		</div>
+
+	</div>
+
+</div>

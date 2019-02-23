@@ -1,0 +1,89 @@
+title = "Vendor - detail"
+url = "/vendor-detail/:slug"
+layout = "Default"
+is_hidden = 0
+==
+<?php
+use Shohabbos\Catalog\Models\Brand;
+
+function onStart() {
+    $brand = Brand::where('slug', $this->param('slug'))->first();
+    
+    if (!$brand) {
+        return \Redirect::to('404');
+    }
+    
+    $this['brand'] = $brand;
+}
+?>
+==
+<!-- SLIDER -->
+<div class="intro-section ptb pbb" style="background-image: url({{ 'assets/images/main-slider-image-1.jpg'|theme }});">
+	<div class="container">
+		<div class="text-center">
+			<div class="center-block" style="max-width: 410px;">
+				<h1 class="fl">Вендор</h1>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- /SLIDER -->
+<div class="product-card ptb pbb">
+	
+	<div class="container">
+		
+		<div class="product-card-block">
+			<div class="product-card-title clearfix">
+				<h2 class="pull-left-md">{{brand.title}}</h2>
+				<div class="pull-right-md">
+					<a href="{{brand.website}}"> {{brand.website}} </a>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="product-card-photo">
+					<img src="{{ brand.logo.path }}" class="img-responsive center-block" alt="">
+				</div>
+				
+				<div class="product-card-desc">
+
+					<div class="product-card-desc-title">Описание</div>
+
+					{{brand.description|raw}}
+
+					<div class="product-card-desc-title">Виды продукции</div>
+					<ul class="product-card-categories styled-list">
+					    {% for category in brand.loadCategories() %}
+					        <li><span><a href="{{'products'|page({category: category.slug}) }}?brand={{brand.id}}"> {{category.title}} </a></span></li>
+					    {% endfor %}
+					</ul>
+
+
+				</div>
+			</div>
+			
+		</div>
+
+	</div>
+
+</div>
+
+<style>
+	
+	.product-card-photo {
+		width: 33.333%;
+	}
+
+	.product-card-desc {
+		width: 66.666%;
+	}
+
+	@media (max-width: 767px) {
+		.product-card-photo, .product-card-desc{
+			width: 100%;
+		}
+	}
+
+</style>

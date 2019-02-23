@@ -1,0 +1,66 @@
+[viewBag]
+==
+<header class="site-header hidden-xs hidden-sm">
+	<div class="container">
+
+		<div class="site-header-wrap">
+			<div class="site-header-col">
+				<a href="/" class="header-logo img-responsive">
+					<img src="{{ 'assets/images/header-logo.png'|theme }}" alt="">
+				</a>
+			</div>
+			&nbsp;
+			<div class="site-header-col">
+				<nav class="top-menu">
+				    {% component 'menu' %}
+					
+					<div class="searcher">
+						<form method="GET" action="{{'products'|page}}" class="form-group has-feedback">
+						    <input type="text" name="query" class="form-control" placeholder="Поиск по сайту">
+						    <button type="submit" class="no-appearance form-control-feedback">Найти</button>
+					  	</form>
+					</div>
+				</nav>
+			</div>
+			&nbsp;
+			<div class="site-header-col">
+				<button class="no-appearance search-button"><img src="{{ 'assets/images/search-icon.png'|theme }}" alt=""></button>
+				<button class="no-appearance search-close"><img src="{{ 'assets/images/close-icon.png'|theme }}" alt=""></button>
+			</div>
+			&nbsp;
+			<div class="site-header-col">
+				<span class="btn-3d">
+					<a class="btn btn-red phm ajax-popup-link" href="/contact-popup" data-text="Заказать звонок">
+						Заказать звонок
+					</a>
+				</span>
+			</div>
+
+		</div>
+
+	</div>
+
+</header>
+
+<div class="site-header-wrap-xs visible-xs visible-sm">
+	<div class="container">
+		<div class="pull-left">
+			<a href="#" class="header-logo img-responsive">
+				<img src="{{ 'assets/images/header-logo-xs.png'|theme }}" alt="" style="height:36px">
+			</a>
+		</div>
+		<div class="pull-right">
+			<div id="menu-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="cross">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>

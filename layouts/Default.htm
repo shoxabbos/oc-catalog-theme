@@ -1,0 +1,95 @@
+description = "Default"
+
+[menu]
+start = "id-2"
+activeNode = 0
+listItemClasses = "no-class"
+primaryClasses = "no-class"
+secondaryClasses = "no-class"
+tertiaryClasses = "no-class"
+numberOfLevels = 2
+
+[menu menu2]
+start = "id-2"
+activeNode = 0
+listItemClasses = 12221
+primaryClasses = "footer-columns"
+secondaryClasses = "dropdown-menu"
+numberOfLevels = 2
+
+[seo]
+==
+<?php
+function onContact() {
+    $fio = input('fio');
+    $phone = input('phone');
+    
+    if (empty($fio) || empty($phone)) {
+         Flash::error('Malumotlar noturi kiritilgan yoki umuman kiritilmagan!');   
+    }
+    
+}
+
+
+function onPartner() {
+    $fio = input('fio');
+    $phone = input('phone');
+    
+    if (empty($fio) || empty($phone)) {
+         Flash::error('Malumotlar noturi kiritilgan yoki umuman kiritilmagan!');   
+    }
+    
+}
+?>
+==
+{% htmlcompress %} 
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,700&amp;subset=cyrillic" rel="stylesheet">
+
+	{% component 'seo' %}
+	
+	<link rel="stylesheet" href="{{[
+	    'assets/css/bootstrap.min.css',
+	    'assets/vendors/slick/slick.css',
+	    'assets/css/mfp.css',
+	    'assets/css/main.css'
+	]|theme }}">
+	{% styles %}
+</head>
+<body>
+	
+	<div class="wrapper">
+		<!-- HEADER -->
+        {% partial 'header-menu' %}
+		<!-- /HEADER -->
+
+
+		<!-- Page -->
+        {% page %}
+        <!-- /Page -->
+
+
+		<!-- Overlay -->
+		{% partial 'overlay-menu' %}
+		<!-- /Overlay -->
+    </div>
+    
+	{% partial 'footer' %}
+
+	<script src="{{ 'assets/js/jquery.min.js'|theme }}"></script>
+	<script src="{{ 'assets/js/bootstrap.min.js'|theme }}"></script>
+	<script src="{{ 'assets/vendors/slick/slick.min.js'|theme }}"></script>
+	<script src="{{'assets/js/mfp.min.js'|theme }}"></script>
+	<script src="{{'assets/js/jquery.sticky.js'|theme }}"></script>
+	<script src="{{ 'assets/js/scripts.js'|theme }}"></script>
+	
+	{% scripts %}
+	{% framework extras %}
+
+</body>
+</html>
+{% endhtmlcompress %}

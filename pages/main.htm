@@ -1,0 +1,111 @@
+title = "Main"
+url = "/"
+layout = "Default"
+is_hidden = 0
+==
+<?php
+use Shohabbos\Catalog\Models\Slide;
+use Shohabbos\Catalog\Models\Brand;
+use Shohabbos\Catalog\Models\Product;
+
+function onStart() {
+    $this['slides'] = Slide::get();
+    $this['brands'] = Brand::get();
+    $this['products'] = Product::paginate();
+}
+?>
+==
+<!-- SLIDER -->
+
+<div class="main-slider">
+    
+    {% for slide in slides %}
+	<div class="main-slider-item" style="background-image:url({{ slide.image.path }});">
+		<div class="main-slider-item-text">
+				<div class="vertical-center-block">
+					<div class="vertical-center-block-cell">
+						<div class="container">
+							<div style="max-width: 450px;">
+								<div class="text-center-xs">
+									<h2>
+										{{slide.title}}
+									</h2>
+									<p>
+										{{slide.description}}
+									</p>
+									
+									{% if slide.url %}
+									    <a href="{{slide.url}}" class="btn btn-link"> Подробнее </a>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	 </div>
+	{% endfor %}
+
+</div>
+
+<!-- /SLIDER -->
+
+<!-- VENDORS -->
+
+<div class="vendors-section ptb pbm">
+	<div class="container">
+		
+		<div class="text-center">
+			<div class="center-block mbb" style="max-width: 400px;">
+				<h2>Вендоры</h2>
+				<p>
+					Партнерство с мировыми лидерами позволяет
+					нам предлагать решения наших поставщиков
+				</p>
+			</div>
+		</div>
+
+		<div class="vendors-list clearfix">
+		    {% for brand in brands %}
+				<a href="{{'vendor-detail'|page({slug: brand.slug}) }}" class="vendors-list-item">
+					<img src="{{ brand.logo.path }}" alt="">
+				</a>
+			{% endfor %}
+		</div>
+
+	</div>
+</div>
+
+<!-- /VENDORS -->
+
+<hr>
+
+<!-- NEW PRODUCTS -->
+
+<div class="new-products-section ptm pbb">
+	<div class="container">
+		<div class="text-center">
+			<div class="center-block mbb" style="max-width: 326px;">
+				<h2>Новинки партнеров</h2>
+				<p>
+					Самые новые и технологичные товары
+					от наших партнеров
+				</p>
+			</div>
+		</div>
+
+		<div class="products-list clearfix">
+			<div class="row">
+                
+                {% for product in products %}
+				<div class="col-md-3">
+					{% partial 'product-item' product=product %}
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- /NEW PRODUCTS -->

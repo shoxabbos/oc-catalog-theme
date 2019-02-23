@@ -1,0 +1,98 @@
+title = "news"
+url = "/news/:page?"
+layout = "Default"
+is_hidden = 0
+
+[blogPosts]
+pageNumber = "{{ :page }}"
+postsPerPage = 10
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "news-detail"
+postPage = "news-detail"
+==
+<!-- SLIDER -->
+
+<div class="intro-section ptb pbb" style="background-image: url({{ 'assets/images/main-slider-image-1.jpg'|theme }});">
+	<div class="container">
+		<div class="text-center">
+			<div class="center-block" style="max-width: 410px;">
+				<h1 class="fl">Пресс-центр</h1>
+				<div>
+					Партнерство с мировыми лидерами позволяет
+					нам предлагать решения наших поставщиков
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- /SLIDER -->
+
+<div class="articles-section ptb pbb">
+	
+	<div class="container">
+		
+		<div class="articles-list">
+
+            {% set posts = blogPosts.posts %}
+
+            
+            {% for post in posts %}
+                <div class="articles-list-item">
+    				<div class="row">
+    					<div class="col-sm-4 col-md-3">
+    						<div class="articles-list-item-image mbs">
+    							<img src="{{ post.featured_images[0].path }}" class="img-responsive" alt="">
+    						</div>
+    					</div>
+    					
+    					<div class="col-sm-8 col-md-9">
+    						<h3 class="articles-list-item-title">
+    							<a href="{{ post.url }}">{{ post.title }}</a>
+    						</h3>
+    						
+    						<div><time class="page-anonce-date">{{ post.published_at|date('d.m.Y') }}</time></div>
+    						
+    						<div class="articles-list-item-content">
+    							{{ post.summary|raw }}
+    						</div>
+    						<div class="text-right">
+    							<a href="{{ post.url }}">Подробнее &raquo;</a>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+            
+            {% else %}
+                <div class="no-data">{{ blogPosts.noPostsMessage }}</div>
+            {% endfor %}
+        
+            
+            {% if posts.lastPage > 1 %}
+                <div class="text-center">
+                    <ul class="pagination">
+                        {% if posts.currentPage > 1 %}
+                            <li><a href="{{ this.page.baseFileName|page({ (blogPosts.pageParam): (posts.currentPage-1) }) }}">&larr; Prev</a></li>
+                        {% endif %}
+                
+                        {% for page in 1..posts.lastPage %}
+                            <li class="{{ posts.currentPage == page ? 'active' : null }}">
+                                <a href="{{ this.page.baseFileName|page({ (blogPosts.pageParam): page }) }}">{{ page }}</a>
+                            </li>
+                        {% endfor %}
+                
+                        {% if posts.lastPage > posts.currentPage %}
+                            <li><a href="{{ this.page.baseFileName|page({ (blogPosts.pageParam): (posts.currentPage+1) }) }}">Next &rarr;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+
+
+			
+		</div>
+
+
+	</div>
+</div>

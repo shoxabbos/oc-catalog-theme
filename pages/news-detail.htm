@@ -1,0 +1,65 @@
+title = "news-detail"
+url = "/news-detail/:slug"
+layout = "Default"
+is_hidden = 0
+
+[blogPost]
+slug = "{{ :slug }}"
+categoryPage = "blog/category"
+==
+<!-- /SLIDER -->
+
+<div class="page-content-section ptb pbb">
+	
+	<div class="container">
+
+		<div class="row">
+			<div class="col-sm-9">
+				
+
+
+				<div class="page-anonce">
+				    {% set post = blogPost.post %}
+				    
+				    <h1 class="h5 page-anonce-title">
+						{{post.title}}
+					</h1>
+					
+					<div>
+    					<time class="page-anonce-date">{{ post.published_at|date('d.m.Y') }}</time>
+    				</div>
+				    
+				    {% if post.featured_images.count %}
+                        <div class="featured-images text-center">
+                            {% for image in post.featured_images %}
+                                <p>
+                                    <img
+                                        data-src="{{ image.filename }}"
+                                        src="{{ image.path }}"
+                                        alt="{{ image.description }}"
+                                        style="max-width: 100%" />
+                                </p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="content">{{ post.content_html|raw }}</div>
+                    
+
+				</div>
+				
+				
+			</div>
+			<div class="col-sm-3">
+				
+				<div id="sticker">
+					<div style="background: red; height:300px;border:1px solid #ddd;"></div>
+					<div style="background: white; height:300px;margin-top: 15px;border:1px solid #ddd;"></div>
+					
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
